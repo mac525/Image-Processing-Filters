@@ -1,2 +1,2 @@
 # Image-Processing-Filters
-Program that allows user to chose from various image processing filters on 8 bit grey-scale images.
+Image processing chain that allows users to combine various image processing filters to apply on grayscale images.
