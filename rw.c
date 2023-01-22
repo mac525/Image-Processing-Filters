@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "Algorithms/MedianFilter/medianFilter.h"
 
 #define ROWS		640
 #define COLUMNS		480
+#define WINSIZE     3
 
 #define sqr(x)		((x)*(x))
 
@@ -13,7 +15,8 @@ int main( int argc, char **argv )
     int		threshold;
     FILE		*fp;
     char		*ifile, *ofile;
-    unsigned char	image[ROWS][COLUMNS];
+    unsigned char	image[ROWS][COLUMNS] = {{0}}; //initialize all elements to zero;
+    unsigned char	filteredImage[ROWS][COLUMNS] = {{0}}; //initialize all elements to zero
     
     if ( argc != 4 )
     {
@@ -42,6 +45,7 @@ int main( int argc, char **argv )
     fclose( fp );
     
     
+    medianFilter(image,filteredImage, ROWS, COLUMNS,WINSIZE); //apply median filter to image
     
     
     if (( fp = fopen( ofile, "wb" )) == NULL )
@@ -51,7 +55,7 @@ int main( int argc, char **argv )
     }
     for ( i = 0 ; i < ROWS ; i++ )
     {
-        if ( fwrite( image[i], 1, COLUMNS, fp ) != COLUMNS )
+        if ( fwrite( filteredImage[i], 1, COLUMNS, fp ) != COLUMNS )
         {
             fprintf( stderr, "error: couldn't write enough stuff\n" );
             exit( 1 );
