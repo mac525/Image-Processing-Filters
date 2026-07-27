@@ -6,14 +6,20 @@
 #include "Common/utils.h"
 
 #include "Algorithms/medianFilter.h"
+#include "Algorithms/averageFilter.h"
 
 const int WINSIZE = 3;
 const int NOISETHRESH = 50;
-
+enum FilterAlgorithm
+{
+	AVERAGE,
+	MEDIAN
+};
 
 int main( int argc, char **argv )
 {
-    
+	enum FilterAlgorithm algorithmType = AVERAGE;
+
     int		i;
     FILE		*fp;
     char		*ifile, *ofile, *noisefile;
@@ -52,9 +58,21 @@ int main( int argc, char **argv )
     writeOutputImage(noisefile, image,ROWS,COLUMNS);
 
 
-    //APPLY MEDIAN FILTER
-    medianFilter(ROWS,COLUMNS,image,WINSIZE); //apply median filter to image
-
+    if (algorithmType == AVERAGE)
+    {
+        //APPLY AVERAGE FILTER
+        averageFilter(ROWS,COLUMNS,image,WINSIZE); //apply median filter to image
+    }
+    else if (algorithmType == MEDIAN)
+	{
+        //APPLY MEDIAN FILTER
+    	medianFilter(ROWS,COLUMNS,image,WINSIZE); //apply median filter to image
+	}
+    else
+    {
+    	fprintf( stderr, "error: filter algorithm not implemented\n" );
+    	exit( 1 );
+    }
     //write output image
     writeOutputImage(ofile, image,ROWS,COLUMNS);
     
