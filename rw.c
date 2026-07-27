@@ -2,9 +2,9 @@
 #include <stdlib.h>
 
 #include "Common/ImageConstants.h"
+#include "Common/noiseGen.h"
 #include "Common/utils.h"
 
-#include "Algorithms/noiseGen.h"
 #include "Algorithms/medianFilter.h"
 
 const int WINSIZE = 3;
