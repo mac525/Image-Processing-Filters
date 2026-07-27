@@ -12,7 +12,7 @@ RELCFLAGS = -O3 -DNDEBUG
 #
 # Project files
 #
-SRCS = rw.c \
+SRCS = main.c \
        $(ALGDIR)/medianFilter.c \
        $(COMMDIR)/noiseGen.c
 
