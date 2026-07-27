@@ -12,7 +12,8 @@ RELCFLAGS = -O3 -DNDEBUG
 #
 # Project files
 #
-SRCS = rw.c \
+SRCS = main.c \
+       $(ALGDIR)/averageFilter.c \
        $(ALGDIR)/medianFilter.c \
        $(COMMDIR)/noiseGen.c
 
@@ -51,7 +52,9 @@ $(RELDIR)/%.o: %.c
 
 $(RELDIR)/%.o: $(ALGDIR)/%.c
 	$(CC) -c $(CFLAGS) $(RELCFLAGS) $< -o $@
-
+	
+$(RELDIR)/%.o: $(COMMDIR)/%.c
+	$(CC) -c $(CFLAGS) $(RELCFLAGS) $< -o $@
 
 #
 # Create release directory
