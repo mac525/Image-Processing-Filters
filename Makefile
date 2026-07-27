@@ -51,7 +51,9 @@ $(RELDIR)/%.o: %.c
 
 $(RELDIR)/%.o: $(ALGDIR)/%.c
 	$(CC) -c $(CFLAGS) $(RELCFLAGS) $< -o $@
-
+	
+$(RELDIR)/%.o: $(COMMDIR)/%.c
+	$(CC) -c $(CFLAGS) $(RELCFLAGS) $< -o $@
 
 #
 # Create release directory
