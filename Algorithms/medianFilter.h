@@ -3,5 +3,5 @@
 #include <stdio.h>
 #include <string.h>
 
-void medianFilter(unsigned char* image,unsigned char* filtImage, int rows, int columns,int windowSize);
+void medianFilter(const size_t rows, const size_t cols,unsigned char *image,const size_t windowSize);
 int cmpfunc (const void * a, const void * b);
