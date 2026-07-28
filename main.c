@@ -5,10 +5,11 @@
 #include "Common/noiseGen.h"
 #include "Common/utils.h"
 
-#include "Algorithms/medianFilter.h"
-#include "Algorithms/averageFilter.h"
+#include "Algorithms/Filters/medianFilter.h"
+#include "Algorithms/Filters/averageFilter.h"
+#include "Algorithms/applyFilter.h"
 
-const int WINSIZE = 3;
+const int WINSIZE = 9;
 const int NOISETHRESH = 50;
 enum FilterAlgorithm
 {
@@ -18,7 +19,7 @@ enum FilterAlgorithm
 
 int main( int argc, char **argv )
 {
-	enum FilterAlgorithm algorithmType = AVERAGE;
+	enum FilterAlgorithm algorithmType = MEDIAN;
 
     int		i;
     FILE		*fp;
@@ -61,12 +62,12 @@ int main( int argc, char **argv )
     if (algorithmType == AVERAGE)
     {
         //APPLY AVERAGE FILTER
-        averageFilter(ROWS,COLUMNS,image,WINSIZE); //apply median filter to image
+    	applyFilter(ROWS,COLUMNS,image,WINSIZE, averageFilter); //apply average filter to image
     }
     else if (algorithmType == MEDIAN)
 	{
         //APPLY MEDIAN FILTER
-    	medianFilter(ROWS,COLUMNS,image,WINSIZE); //apply median filter to image
+    	applyFilter(ROWS,COLUMNS,image,WINSIZE, medianFilter); //apply median filter to image
 	}
     else
     {

@@ -13,8 +13,9 @@ RELCFLAGS = -O3 -DNDEBUG
 # Project files
 #
 SRCS = main.c \
-       $(ALGDIR)/averageFilter.c \
-       $(ALGDIR)/medianFilter.c \
+       $(ALGDIR)/applyFilter.c \
+       $(ALGDIR)/Filters/averageFilter.c \
+       $(ALGDIR)/Filters/medianFilter.c \
        $(COMMDIR)/noiseGen.c
 
 OBJS = $(SRCS:.c=.o)
