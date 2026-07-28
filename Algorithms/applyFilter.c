@@ -1,7 +1,9 @@
-#include "medianFilter.h"
+#include "applyFilter.h"
 
-void medianFilter(const size_t rows, const size_t cols, unsigned char* image,const size_t windowSize)
-{
+
+// The function signature becomes much easier to read:
+void applyFilter(const size_t rows, const size_t cols,unsigned char *image,
+		const size_t windowSize, FilterFunc operation) {
 
     if (0 == (windowSize % 2))
     {
@@ -16,20 +18,20 @@ void medianFilter(const size_t rows, const size_t cols, unsigned char* image,con
     	    fprintf(stderr, "Allocation failed\n");
     	    return;
     	}
-    	memcpy(filteredImage, image, rows * cols);
+    	memcpy(filteredImage, image, rows * cols * sizeof(unsigned char));
 
     	//assuming square window with odd length
         int guardSize = windowSize/(int)2;
-        
-        int numPixels2Sort = windowSize * windowSize;
-        unsigned char *pixelValues = malloc(numPixels2Sort*sizeof(unsigned char));
+
+        int numPixels = windowSize * windowSize;
+        unsigned char *pixelValues = malloc(numPixels*sizeof(unsigned char));
         if (pixelValues == NULL)
         {
             free(filteredImage);
             return;
         }
 
-        //apply median filter
+        //apply average filter
         for (int r = 0; r < (int)rows; ++r)
         {
             for (int c = 0; c < (int)cols; ++c)
@@ -50,7 +52,7 @@ void medianFilter(const size_t rows, const size_t cols, unsigned char* image,con
 						for (int jdx = (col - guardSize); jdx <= (col + guardSize); jdx++)
 						{
 
-							if (numValues < numPixels2Sort)
+							if (numValues < numPixels)
 							{
 								pixelValues[numValues] = image[idx*cols + jdx];
 								numValues++;
@@ -63,26 +65,19 @@ void medianFilter(const size_t rows, const size_t cols, unsigned char* image,con
 							}
 						}
 					}
-					//sort values and find median
-					qsort(pixelValues, numPixels2Sort, sizeof(unsigned char), cmpfunc);
 
-					unsigned char median = pixelValues[numPixels2Sort/2];
+					unsigned char value = operation(pixelValues, numPixels);
 
-					filteredImage[row*cols + c] = median;
+					filteredImage[row*cols + c] = value;
 
 				}//end if
             } //c
         } // r
 
         //copy temp back into original
-    	memcpy(image, filteredImage, rows * cols);
+    	memcpy(image, filteredImage, rows * cols * sizeof(unsigned char));
 
     	free(pixelValues);
         free(filteredImage);
     } //end if
-} //end of function
-
-int cmpfunc (const void * a, const void * b)
-{
-    return ( *(unsigned char*)a - *(unsigned char*)b );
 }
